@@ -20,11 +20,11 @@ phases:
     commands:
       - echo "Build started on `date`"
       - echo "Building ..."
-      - export REACT_APP_API_DOMAIN=`aws ssm get-parameter --name "$API_URL_PARAMETER_NAME" --region us-east-1 | jq -r .Parameter.Value`
+      - export REACT_APP_API_DOMAIN=`aws ssm get-parameter --name "$API_URL_PARAMETER_NAME" --region us-east-2 | jq -r .Parameter.Value`
       - npm run build
   post_build:
     commands:
-      - export BUCKET=`aws ssm get-parameter --name "$BUCKET_PARAMETER_NAME" --region us-east-1 | jq -r .Parameter.Value`
+      - export BUCKET=`aws ssm get-parameter --name "$BUCKET_PARAMETER_NAME" --region us-east-2 | jq -r .Parameter.Value`
       - echo "Uploading build to $BUCKET ..."
       - aws s3 sync "$BUILD_DIR" "$BUCKET" --delete
       - echo "Build completed on `date`"
